@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import Header from './common/header'
+import Header from './common/header';
+import store from './store';
+import { Provider } from 'react-redux';
 import { GlobalStyle } from './style.js';
 import { IconFont } from './statics/iconfont/iconfont.js'
 
@@ -8,7 +10,9 @@ function App() {
     <Fragment>
       <GlobalStyle />
       <IconFont />
-      <Header />
+      <Provider store={store}>
+        <Header />
+      </Provider>
     </Fragment>
 
   );
