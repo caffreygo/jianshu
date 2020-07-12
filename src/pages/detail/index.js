@@ -1,11 +1,34 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { actionCreators } from "./store";
+import { DatailWrapper, Header, Content } from "./style";
 
-class Detail extends Component {
-    render() {
-        return (
-            <div>Detail page</div>
-        )
-    }
+class Detail extends PureComponent {
+  render() {
+    const { title, content } = this.props;
+    return (
+      <DatailWrapper>
+        <Header>{title}</Header>
+        <Content dangerouslySetInnerHTML={{ __html: content }} />
+      </DatailWrapper>
+    );
+  }
+
+  componentDidMount() {
+    this.props.getDetail(this.props.match.params.id);
+  }
 }
 
-export default Detail
+const mapState = (state) => ({
+  title: state.getIn(["detail", "title"]),
+  content: state.getIn(["detail", "content"]),
+});
+
+const mapDispatch = (dispatch) => ({
+  getDetail(id) {
+    dispatch(actionCreators.getDetail(id));
+  },
+});
+
+export default connect(mapState, mapDispatch)(withRouter(Detail));
